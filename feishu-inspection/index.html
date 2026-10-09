@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>巡澜 · 门店巡检整改闭环演示</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body><style>@media(max-width:900px){.feishu-public-note{margin-left:0!important}}</style><div class="feishu-public-note" style="margin-left:204px;padding:10px 24px;background:#eef4ff;color:#334155;font:13px/1.5 system-ui;border-bottom:1px solid #dbeafe"><a href="../" style="font-weight:700;color:#2866dd;text-decoration:none">← Xiyan portfolio</a> · Self-initiated concept prototype using fictional/sample data; not paid client work.</div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">巡</span><div><strong>巡澜</strong><small>门店运营闭环</small></div></div>
+      <nav id="nav" aria-label="主导航">
+        <button data-view="dashboard" class="active"><span>◫</span> 管理看板</button>
+        <button data-view="inspect"><span>◎</span> 发起巡检</button>
+        <button data-view="tasks"><span>✓</span> 整改任务 <b id="navTaskCount"></b></button>
+        <button data-view="review"><span>⌁</span> 经理复核 <b id="navReviewCount"></b></button>
+        <button data-view="handoff"><span>↗</span> 客户接管</button>
+      </nav>
+      <div class="side-foot"><div class="tenant-dot"></div><div><small>演示租户</small><br>华东一区 · 12 家门店</div></div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="打开菜单">☰</button>
+        <div><h1 id="pageTitle">管理看板</h1><p id="pageSubtitle">从发现问题到闭环复盘，每一步都有据可查</p></div>
+        <div class="top-actions"><span class="demo-badge">演示数据</span><button class="ghost" id="resetBtn">↻ 重置演示</button><div class="avatar">林</div></div>
+      </header>
+      <div class="notice"><strong>演示环境</strong> 数据仅保存在本浏览器。规则模拟的 AI 判断需人工确认，不作为实际经营决策依据。</div>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+      <section class="view active" id="view-dashboard">
+        <div class="hero">
+          <div><span class="eyebrow">REGIONAL OPERATIONS</span><h2>今天，有 <em id="heroOpen">0</em> 项整改需要关注</h2><p>优先处理高风险与即将超时任务，让门店问题真正闭环，而不止停在检查表。</p></div>
+          <button class="primary" data-go="inspect">＋ 发起一次巡检</button>
+        </div>
+        <div class="metric-grid" id="metrics"></div>
+        <div class="grid-2">
+          <article class="panel"><div class="panel-head"><div><h3>区域闭环趋势</h3><p>近 7 日发现与完成任务</p></div><span class="chip green">↗ 闭环率提升</span></div><div class="chart" id="trendChart"></div></article>
+          <article class="panel"><div class="panel-head"><div><h3>风险分布</h3><p>当前未关闭问题</p></div></div><div class="risk-wrap" id="riskChart"></div></article>
+        </div>
+        <div class="grid-2 wide-left">
+          <article class="panel"><div class="panel-head"><div><h3>重点任务</h3><p>按风险与时限自动排序</p></div><button class="text-btn" data-go="tasks">查看全部 →</button></div><div id="priorityTasks"></div></article>
+          <article class="panel"><div class="panel-head"><div><h3>闭环可观测</h3><p>流程不是黑盒</p></div></div><div class="observability" id="observability"></div></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-inspect">
+        <div class="stepper"><div class="step active"><i>1</i><span>记录问题</span></div><div class="line"></div><div class="step"><i>2</i><span>确认判断</span></div><div class="line"></div><div class="step"><i>3</i><span>生成整改</span></div></div>
+        <div class="form-layout">
+          <form class="panel form-card" id="inspectionForm">
+            <div class="panel-head"><div><h3>现场巡检记录</h3><p>带 <b class="required">*</b> 为必填项</p></div><span class="chip">草稿自动保存在本页</span></div>
+            <label>巡检门店 <b class="required">*</b><select id="storeSelect" required></select></label>
+            <label>检查项 <b class="required">*</b><select id="itemSelect" required><option value="">请选择检查项</option><option>食品安全 · 冷藏温度</option><option>食品安全 · 效期管理</option><option>门店环境 · 清洁卫生</option><option>服务规范 · 员工着装</option><option>消防安全 · 通道畅通</option><option>设备设施 · 运行状态</option></select></label>
+            <label>问题描述 <b class="required">*</b><textarea id="description" required rows="5" placeholder="例如：冷藏柜实测 12℃，高于标准 0–8℃，部分乳制品表面有水珠。"></textarea><span class="hint">描述越具体，规则判断越准确。建议包含位置、数值和影响。</span></label>
+            <div class="quick-examples"><span>快速填入：</span><button type="button" data-example="冷藏柜实测 12℃，高于标准 0–8℃，部分乳制品表面有水珠。">冷藏温度异常</button><button type="button" data-example="消防通道堆放 6 箱物料，影响紧急疏散，现场暂未清除。">消防通道占用</button></div>
+            <label>现场备注（可选）<input id="note" placeholder="补充现场沟通、照片编号等"></label>
+            <div class="form-actions"><button type="button" class="ghost" id="clearForm">清空</button><button type="submit" class="primary">规则分析并继续 →</button></div>
+          </form>
+          <aside class="panel helper"><span class="helper-icon">◇</span><h3>人工兜底，而非盲目自动化</h3><p>系统根据关键词、检查项和企业规则给出风险建议；巡检员必须确认或修改后才会创建任务。</p><ul><li><b>AI / 规则建议</b> 清晰展示依据</li><li><b>人工确认</b> 可调整风险、负责人和期限</li><li><b>全程留痕</b> 每次变更进入操作日志</li></ul><div class="rule-box"><strong>当前演示规则</strong><small>消防/过期/异物 → 高风险<br>温度异常/设备故障 → 中风险<br>着装/轻微清洁 → 低风险</small></div></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-confirm">
+        <button class="back-link" data-go="inspect">← 返回修改</button>
+        <div class="form-layout">
+          <div class="panel form-card"><div class="panel-head"><div><h3>确认风险判断</h3><p>以下为规则模拟结果，请人工确认</p></div><span class="chip amber">AI 判断需人工确认</span></div>
+            <div id="analysisSummary" class="analysis-summary"></div>
+            <div class="ai-card"><div class="ai-title"><span>◇</span><div><strong>规则建议</strong><small id="analysisReason"></small></div><b id="suggestedRisk"></b></div><p id="analysisTip"></p></div>
+            <label>最终风险级别 <b class="required">*</b><div class="risk-options" id="riskOptions"><button type="button" data-risk="低">低风险<small>7天内整改</small></button><button type="button" data-risk="中">中风险<small>3天内整改</small></button><button type="button" data-risk="高">高风险<small>24小时内整改</small></button></div></label>
+            <div class="two-col"><label>责任人 <b class="required">*</b><select id="assigneeSelect"></select></label><label>整改期限 <b class="required">*</b><input id="dueDate" type="datetime-local"></label></div>
+            <label class="check"><input type="checkbox" id="humanConfirmed"> <span>我已核对现场情况，并确认以上风险级别、责任人和期限。</span></label>
+            <div class="form-actions"><button class="primary" id="createTaskBtn">生成整改任务</button></div>
+          </div>
+          <aside class="panel helper"><h3>任务生成后会发生什么？</h3><div class="flow-list"><div><i>1</i><p><b>通知责任人</b><small>推送任务详情与期限</small></p></div><div><i>2</i><p><b>监控处理时限</b><small>临期、超时自动标记</small></p></div><div><i>3</i><p><b>提交整改证据</b><small>说明与模拟凭证</small></p></div><div><i>4</i><p><b>区域经理复核</b><small>通过关闭，驳回重做</small></p></div></div></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-tasks">
+        <div class="toolbar"><div class="tabs" id="taskTabs"><button data-filter="all" class="active">全部</button><button data-filter="待整改">待整改</button><button data-filter="待复核">待复核</button><button data-filter="已超时">已超时</button><button data-filter="已关闭">已关闭</button></div><select id="storeFilter"><option value="all">全部门店</option></select></div>
+        <div class="panel table-panel"><div class="mobile-cards" id="taskList"></div></div>
+      </section>
+
+      <section class="view" id="view-task-detail">
+        <button class="back-link" data-go="tasks">← 返回任务列表</button><div id="taskDetail"></div>
+      </section>
+
+      <section class="view" id="view-review">
+        <div class="section-intro"><div><h2>区域经理复核</h2><p>查看整改证据，明确通过或驳回原因。</p></div><span class="chip amber" id="reviewCountChip"></span></div>
+        <div id="reviewList" class="review-grid"></div>
+      </section>
+
+      <section class="view" id="view-handoff">
+        <div class="handoff-hero"><span class="eyebrow">CUSTOMER-CONTROLLED</span><h2>流程交付后，客户可以自己接管</h2><p>我们交付的不只是一个界面，而是一套可配置、可审计、可迁移的门店运营方法。可部署到飞书工作流，也可对接客户现有系统。</p></div>
+        <div class="cap-grid"><article><span>⌘</span><h3>规则可配置</h3><p>风险词库、整改时限、升级路径由客户管理员维护。</p></article><article><span>♙</span><h3>权限可接管</h3><p>按区域、门店、角色配置数据边界与审批权限。</p></article><article><span>↻</span><h3>流程可观测</h3><p>事件日志、超时节点、驳回原因可追溯并导出。</p></article><article><span>⇄</span><h3>数据可迁移</h3><p>支持标准字段导出，避免业务数据被产品锁定。</p></article></div>
+        <div class="panel architecture"><h3>建议落地架构</h3><div class="arch-flow"><div><b>门店巡检端</b><small>表单 / 移动端</small></div><i>→</i><div><b>业务规则层</b><small>风险分级 / SLA</small></div><i>→</i><div><b>协同工作流</b><small>通知 / 审批 / 催办</small></div><i>→</i><div><b>运营数据层</b><small>看板 / 导出 / API</small></div></div><p class="disclaimer">本演示为独立产品概念验证，不复制任何第三方视觉商标，也不代表与飞书存在官方合作关系。</p></div>
+      </section>
+    </main>
+  </div>
+  <div class="modal" id="resetModal" aria-hidden="true"><div class="modal-card"><span class="modal-icon">↻</span><h3>重置全部演示数据？</h3><p>这会清除本浏览器内新建或修改的任务，并恢复预置数据。操作不可撤销。</p><div><button class="ghost" id="cancelReset">取消</button><button class="danger-btn" id="confirmReset">确认重置</button></div></div></div>
+  <script src="app.js"></script>
+</body>
+</html>
