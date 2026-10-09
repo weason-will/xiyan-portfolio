@@ -1,0 +1,44 @@
+name: 口语视频诊断内测申请
+description: 申请加入重录 ReTake 的首批内测
+title: "[口语内测申请] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢申请。这个 Issue 是公开的，请不要上传视频、手机号、邮箱、真实姓名或其他隐私信息。我们会在评论中确认是否匹配，再安排安全的后续提交方式。
+  - type: dropdown
+    id: scenario
+    attributes:
+      label: 使用场景
+      options:
+        - 小生意或产品介绍
+        - 销售或客户说明
+        - 短视频口播
+        - 其他
+    validations:
+      required: true
+  - type: input
+    id: audience
+    attributes:
+      label: 目标受众
+      description: 只写受众类型，不要写真实姓名或联系方式。
+      placeholder: 例如：第一次了解产品的潜在客户
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: 最想改善的问题
+      description: 请简要说明目标和目前遇到的问题，不要粘贴视频链接或私人信息。
+      placeholder: 例如：开头留不住人，希望表达更自然
+    validations:
+      required: true
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: 公开提交确认
+      options:
+        - label: 我理解这个申请是公开的，未提交视频、联系方式或其他隐私信息。
+          required: true
+        - label: 我理解这是内测申请，是否入选和后续收费会在确认匹配后另行说明。
+          required: true

@@ -1,0 +1,46 @@
+name: 成人英语作文精批内测申请
+description: 申请加入英改项目的首批成人用户内测
+title: "[作文内测申请] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢申请。这个 Issue 是公开的，请不要上传作文原文、手机号、邮箱、真实姓名或其他隐私信息。我们会在评论中确认是否匹配，再安排安全的后续提交方式。
+  - type: dropdown
+    id: exam
+    attributes:
+      label: 练习类型
+      options:
+        - 考研英语一
+        - 考研英语二
+        - 大学英语四级
+        - 大学英语六级
+    validations:
+      required: true
+  - type: dropdown
+    id: stage
+    attributes:
+      label: 当前训练阶段
+      options:
+        - 刚开始练习
+        - 已练习1–5篇
+        - 已稳定每周练习
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: 最想解决的问题
+      description: 只描述问题，不要粘贴作文原文或个人信息。
+      placeholder: 例如：结构总是混乱，不知道如何组织段落
+    validations:
+      required: true
+  - type: checkboxes
+    id: integrity
+    attributes:
+      label: 使用范围确认
+      options:
+        - label: 我提交的是自己完成的成人英语练习，不用于正式考试、学校计分作业、论文或申请文书代写。
+          required: true
+        - label: 我理解这个申请是公开的，未提交作文、联系方式或其他隐私信息。
+          required: true
