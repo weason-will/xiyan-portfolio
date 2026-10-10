@@ -1,0 +1,66 @@
+name: 飞书巡检整改闭环试点申请
+description: 申请溪言科技飞书巡检诊断或试点服务
+title: "[飞书巡检试点申请] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢申请。这个 Issue 是公开的，请不要填写手机号、邮箱、员工姓名、门店地址、内部数据或其他隐私信息。我们会先在评论中确认是否匹配，再安排安全的后续沟通方式。
+  - type: dropdown
+    id: industry
+    attributes:
+      label: 行业类型
+      options:
+        - 连锁零售
+        - 餐饮
+        - 健身或运动
+        - 物业或现场服务
+        - 培训或教育服务
+        - 其他多门店/多场地业务
+    validations:
+      required: true
+  - type: dropdown
+    id: scale
+    attributes:
+      label: 门店或场地数量
+      options:
+        - 3–5
+        - 6–10
+        - 11–20
+        - 21–50
+        - 50以上
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: 当前做法
+      description: 只描述工具和流程，不要粘贴内部链接或数据。
+      placeholder: 例如：飞书表格记录，照片发群，运营人工催整改
+    validations:
+      required: true
+  - type: textarea
+    id: pain
+    attributes:
+      label: 最想解决的问题
+      placeholder: 例如：逾期没人负责、复查没有证据、无法统计重复问题
+    validations:
+      required: true
+  - type: dropdown
+    id: package
+    attributes:
+      label: 感兴趣的服务
+      options:
+        - 诊断版 ¥499
+        - 试点版 ¥1,999
+        - 标准版 ¥4,999起
+        - 先了解，不确定
+    validations:
+      required: true
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: 公开提交确认
+      options:
+        - label: 我理解该申请公开可见，未提交联系方式、员工信息、内部数据或其他隐私内容。
+          required: true
